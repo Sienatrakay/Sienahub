@@ -5,3 +5,37 @@
     padding: 0;
     text-decoration: none;
 }
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    min-height: 100vh;
+}
+
+.chakra-stack {
+    gap: 16px !important;
+    max-width: 400px;
+    width: 100%;
+}
+
+.chakra-input {
+    height: 56px !important;
+    padding-left: 40px;
+    border: 1px solid #49454f !important;
+    transition: all 0.15s ease;
+    border-radius: 4px !important;
+}
+
+.chakra-input:focus-visible {
+    box-shadow: none !important;
+}
+
+.chakra-form__label {
+    position: absolute;
+    left: 40px;
+    color: #1c1b1f;
+    z-index: 1;
+}
