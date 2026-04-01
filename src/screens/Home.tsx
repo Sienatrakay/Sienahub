@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import "../index.css";
 import { useState } from "react";
 
@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 
@@ -21,6 +22,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState("");
+  const [error, setError] = useState("");
 
   const isActive = isFocused || value.length > 0;
 
@@ -30,7 +32,11 @@ export default function Home() {
     axios
       .get(`${apiURL}/users/${value.trim()}`)
       .then((res) => navigate("/profile", { state: { user: res.data } }))
-      .catch(() => console.log("error"));
+      .catch((e: AxiosError) => {
+        if (e.response?.status === 404) {
+          setError("Não há usuários com esse nome");
+        }
+      });
   };
 
   return (
@@ -100,6 +106,12 @@ export default function Home() {
         >
           Search
         </Button>
+
+        {error && (
+          <Text fontSize="md" color={"red.500"}>
+            {error}
+          </Text>
+        )}
       </VStack>
     </Box>
   );
