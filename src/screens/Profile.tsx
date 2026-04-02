@@ -13,7 +13,7 @@ import {
 import { FiStar, FiTwitter } from "react-icons/fi";
 import { apiURL } from "../utils/api-constant";
 
-interface GitHubRepo {
+interface IGitHubRepo {
   id: number;
   name: string;
   description: string;
@@ -21,10 +21,15 @@ interface GitHubRepo {
   stargazers_count: number;
   language: string;
   updated_at: string;
+  owner: IGitHubRepoOwnerLogin;
+}
+
+interface IGitHubRepoOwnerLogin {
+  login: string;
 }
 
 export default function Profile() {
-  const [repos, setRepos] = useState<GitHubRepo[]>([]);
+  const [repos, setRepos] = useState<IGitHubRepo[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -156,19 +161,35 @@ export default function Profile() {
             {user.location ?? "Sem localização"}
           </Text>
           <Text display="flex" gap={2} alignItems="center" fontSize="sm">
-            <HiOutlineMail size={20} /> {user.email ?? "Sem email"}
+            <HiOutlineMail size={20} />
+            {user.email ? (
+              <a href={`mailto:${user.email}`}>{user.email}</a>
+            ) : (
+              "Sem email"
+            )}
           </Text>
           <Text display="flex" gap={2} alignItems="center" fontSize="sm">
             <HiOutlineLink size={20} />
-            <a href={user.blog} target="_blank">
-              {user.blog ?? "Sem blog"}
-            </a>
+            {user.blog ? (
+              <a href={user.blog} target="_blank">
+                {user.blog}
+              </a>
+            ) : (
+              "Sem blog"
+            )}
           </Text>
           <Text display="flex" gap={2} alignItems="center" fontSize="sm">
             <FiTwitter size={18} />
-            {user.twitter_username
-              ? `@${user.twitter_username}`
-              : "Sem twitter"}
+            {user.twitter_username ? (
+              <a
+                href={`https://x.com/${user.twitter_username}`}
+                target="_blank"
+              >
+                @{user.twitter_username}
+              </a>
+            ) : (
+              "Sem twitter"
+            )}
           </Text>
         </Box>
         <Button
@@ -192,7 +213,17 @@ export default function Profile() {
         borderRadius={{ md: "sm" }}
       >
         {repos.map((repo) => (
-          <Box key={repo.id} className="repos-item">
+          <Box
+            key={repo.id}
+            className="repos-item"
+            onClick={() =>
+              window.open(
+                `https://github.com/${repo.owner.login}/${repo.name}`,
+                "_blank",
+              )
+            }
+            cursor="pointer"
+          >
             <Text fontSize="xl" fontWeight="bold" color="#171923">
               {repo.name}
             </Text>
