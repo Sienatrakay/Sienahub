@@ -62,3 +62,8 @@ body {
     border: none;
     padding-bottom: 0;
 }
+
+.input-chakra-header {
+    border: 2px solid #8c19d2 !important;
+    border-radius: 6px !important;
+}
