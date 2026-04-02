@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <Box className="home-container">
-      <VStack>
+      <VStack px={{ base: 4, md: 0 }}>
         <Box>
           <svg
             width="305"
